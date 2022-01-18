@@ -3,17 +3,12 @@ import sys
 
 import pygame
 
-# Изображение не получится загрузить
-# без предварительной инициализации pygame
-
 class Board:
     colors = ["black", "white"]
-    # создание поля
     def __init__(self, width, height):
         self.width = width
         self.height = height
         self.board = [[-1] * width for _ in range(height)]
-        # значения по умолчанию
         self.left = 10
         self.top = 10
         self.size = 100
@@ -36,14 +31,15 @@ class Board:
                                      (10 + i * self.size, 10 + j * self.size, self.size, self.size), 0)
                     pygame.draw.rect(screen, (255, 255, 255),
                                      (10 + i * self.size, 10 + j * self.size, self.size, self.size), 1)
+                    
                 else:
+                    global d
+                    d = 0
                     pygame.draw.rect(screen, (0, 0, 255),
                                      (10 + i * self.size, 10 + j * self.size, self.size, self.size), 0)
                     pygame.draw.rect(screen, (255, 255, 255),
                                      (10 + i * self.size, 10 + j * self.size, self.size, self.size), 1)
 
-
-    # настройка внешнего вида
     def set_view(self, left, top, size):
         self.left = left
         self.top = top
@@ -66,7 +62,6 @@ class Board:
 
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
-    # если файл не существует, то выходим
     if not os.path.isfile(fullname):
         print(f"Файл с изображением '{fullname}' не найден")
         sys.exit()
@@ -93,11 +88,12 @@ if __name__ == '__main__':
     pygame.display.flip()
     board = Board(5, 7)
     running = True
+    d = 1
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and d == 1:
                 board.get_click(event.pos)
         screen.fill((0, 0, 0))
         board.render(screen)
