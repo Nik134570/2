@@ -8,7 +8,7 @@ class Board:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.board = [[-1] * width for _ in range(height)]
+        self.board = [[0] * width for _ in range(height)]
         self.left = 10
         self.top = 10
         self.size = 100
@@ -16,29 +16,18 @@ class Board:
     def render(self, screen):
         for j in range(0, self.width):
             for i in range(0, self.height):
-                if self.board[i][j] == 0:
+                if self.board[i][j] == 1:
                     pygame.draw.rect(screen, (255, 0, 0),
                                     (10 + i * self.size, 10 + j * self.size, self.size, self.size), 0)
                     pygame.draw.rect(screen, (255, 255, 255),
                                      (10 + i * self.size, 10 + j * self.size, self.size, self.size), 1)
-                elif self.board[i][j] == -1:
+                elif self.board[i][j] == 0:
                     pygame.draw.rect(screen, (0, 0, 0),
                                      (10 + i * self.size, 10 + j * self.size, self.size, self.size), 0)
                     pygame.draw.rect(screen, (255, 255, 255),
                                      (10 + i * self.size, 10 + j * self.size, self.size, self.size), 1)
-                elif self.board[i][j] == 2:
-                    pygame.draw.rect(screen, (0, 0, 0),
-                                     (10 + i * self.size, 10 + j * self.size, self.size, self.size), 0)
-                    pygame.draw.rect(screen, (255, 255, 255),
-                                     (10 + i * self.size, 10 + j * self.size, self.size, self.size), 1)
+        
                     
-                else:
-                    global d
-                    d = 0
-                    pygame.draw.rect(screen, (0, 0, 255),
-                                     (10 + i * self.size, 10 + j * self.size, self.size, self.size), 0)
-                    pygame.draw.rect(screen, (255, 255, 255),
-                                     (10 + i * self.size, 10 + j * self.size, self.size, self.size), 1)
 
     def set_view(self, left, top, size):
         self.left = left
@@ -58,7 +47,10 @@ class Board:
 
     def on_click(self, cell_coords):
         y, x = cell_coords
-        self.board[x][y] = (self.board[x][y] + 1) % 3
+        for j in range(0, self.width):
+            for i in range(0, self.height):
+                self.board[i][j] = 0
+        self.board[x][y] = (self.board[x][y] + 1) % 2
 
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
@@ -95,6 +87,9 @@ if __name__ == '__main__':
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN and d == 1:
                 board.get_click(event.pos)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a]:
+            d = 0
         screen.fill((0, 0, 0))
         board.render(screen)
         pygame.display.flip()
