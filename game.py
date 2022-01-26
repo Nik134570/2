@@ -5,17 +5,27 @@ import cv2
 
 import pygame
 
-agh = [[1, 2], [2, 3]]
+agh = [[1, 2], [2, 3], [22, 3], [23, 3], [23, 2], [23, 1], [22, 1], [21, 1], [21, 2], [21, 3], [12, 12], [0, 13]]
 
-image = pygame.image.load('D:/21.jpg')
+image = pygame.image.load('D:/fon.jpg')
 image1 = pygame.image.load('D:/39.png')
 image2 = pygame.image.load('D:/56.png')
 image3 = pygame.image.load('D:/coin2.png')
 image4 = pygame.image.load('D:/portal.png')
-image5 = pygame.image.load('D:/bron1.png')
-image6 = pygame.image.load('D:/меч1.png')
+image5 = pygame.image.load('D:/ronz.png')
+image6 = pygame.image.load('D:/sword1.png')
 image7 = pygame.image.load('D:/ук.png')
 image8 = pygame.image.load('D:/крылья.png')
+image13 = pygame.image.load('D:/bc3.jpg')
+image38 = pygame.image.load('D:/mon1.png')
+image18 = pygame.image.load('D:/we12.png')
+image67 = pygame.image.load('D:/cityc.png')
+image56 = pygame.image.load('D:/d1.jpg')
+image511 = pygame.image.load('D:/bron1.png')
+image5112 = pygame.image.load('D:/tar.png')
+image512 = pygame.image.load('D:/меч1.png')
+images = pygame.image.load('D:/i.jpg')
+imagef = pygame.image.load('D:/f12.png')
 
 all_sprites = pygame.sprite.Group()
 
@@ -94,19 +104,7 @@ class Board:
     def render(self, screen, d):
         global s
         s = 0
-        if d == 1:
-            dog_surf = pygame.transform.scale(image, (width, height))
-            dog_rect = dog_surf.get_rect(bottomright=(width, height))
-            screen.blit(dog_surf, dog_rect)
-            for i in range(18, 21):
-                for j in range(5, 8):
-                    pygame.draw.rect(screen, (0, 0, 0),
-                                     (i * self.size, j * self.size, self.size, self.size), 1)
-                    pygame.draw.line(screen, (0, 0, 0), (i * self.size + 1, j * self.size + 1), (i * self.size + 69, j * self.size + 69), 5)
-                    pygame.draw.line(screen, (0, 0, 0), (i * self.size + 1, j * self.size + 69), (i * self.size + 69, j * self.size + 1), 5)
-                    pygame.draw.rect(screen, (255, 255, 255),
-                                     (i * self.size, j * self.size, self.size, self.size), 1)
-        else:
+        if d == 0:
             pygame.draw.rect(screen, (0, 0, 0),
                                      (0, 0, width, height), 0)
         for j in range(0, self.width):
@@ -167,10 +165,6 @@ class Board:
                 screen.blit(dog_surf1, dog_rect1)
                 pygame.draw.rect(screen, (255, 255, 255),
                                  (i * self.size, j * self.size, self.size, self.size), 1)
-        if d == 1:
-            dog_surf10 = pygame.transform.scale(image4, (420, 210))
-            dog_rect10 = dog_surf10.get_rect(bottomright=(23 * self.size - 35, 8 * self.size))
-            screen.blit(dog_surf10, dog_rect10)
 
 
 
@@ -310,10 +304,37 @@ if __name__ == '__main__':
     d = 1
     s = 0
     gh = 0
+    gifFrameList1 = loadGIF(r"D:/ghy1.gif")
+    currentFrame1 = 0
+    clock = pygame.time.Clock()
+    while running:
+        clock.tick(20)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    running = False
+        rect1 = gifFrameList1[currentFrame1].get_rect(center = (530, 300))
+        b1 = pygame.transform.scale(gifFrameList1[currentFrame1], (width, height))
+        screen.blit(b1, rect1)
+        currentFrame1 = (currentFrame1 + 1) % len(gifFrameList1)
+        dog_surf1112 = pygame.transform.scale(image38, (200, 200))
+        dog_rect1112 = dog_surf1112.get_rect(bottomright=(1010, 500))
+        screen.blit(dog_surf1112, dog_rect1112)
+        dog_surf11124 = pygame.transform.scale(image18, (500, 300))
+        dog_rect11124 = dog_surf11124.get_rect(bottomright=(1160, 800))
+        screen.blit(dog_surf11124, dog_rect11124)
+        pygame.display.flip()
+    running = True
+    gifFrameList2 = loadGIF(r"D:/1цу.gif")
+    gifFrameList21 = loadGIF(r"D:/fong.gif")
+    currentFrame2 = 0
+    currentFrame21 = 0
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 board.get_click(event.pos)
             if event.type == pygame.KEYDOWN:
@@ -328,11 +349,17 @@ if __name__ == '__main__':
     x1, y1 = board.n()
     p = board.g()
     print(p)
+    life = 10
     while running == True:
-        pygame.display.flip()
+        rect21 = gifFrameList21[currentFrame21].get_rect(center = (420, 275))
+        b21 = pygame.transform.scale(gifFrameList21[currentFrame21], (width, height))
+        b21.set_colorkey((255, 255, 255))
+        screen.blit(b21, rect21)
+        currentFrame21 = (currentFrame21 + 1) % len(gifFrameList21)
+        clock.tick(20)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s and y1 != height // 70 - 1 and gh == 0:
                     board.fm(x1, y1)
@@ -352,12 +379,27 @@ if __name__ == '__main__':
                     stat(x1, y1, p)
                 if event.key == pygame.K_m:
                     gh = (gh + 1) % 2
-                if event.key == pygame.K_j and x1 == 19 and y1 == 6:
+                if x1 >= 18 and x1 <= 20 and y1 >= 5 and y1 <= 7 and event.key == pygame.K_j:
                     running = False
                 print(x1, y1)
                 #19 6
-        board.render(screen, 1)
+        font = pygame.font.Font(None, 40)
+        text = font.render("Health: " + str(life), True, (255, 0, 0))
+        text_x = 1650 - text.get_width() // 2
+        text_y = 30 - text.get_height() // 2
+        text_w = text.get_width()
+        text_h = text.get_height()
+        screen.blit(text, (text_x, text_y))
+        if gh == 0:
+            rect2 = gifFrameList2[currentFrame2].get_rect(center = (1400, 485))
+            b2 = pygame.transform.scale(gifFrameList2[currentFrame2], (200, 200))
+            b2.set_colorkey((255, 255, 255))
+            screen.blit(b2, rect2)
+            currentFrame2 = (currentFrame2 + 1) % len(gifFrameList2)
+            board.render(screen, 1)
+            pygame.display.flip()
         if(gh == 1):
+            board.render(screen, 1)
             a = width
             b = height
             pygame.draw.rect(screen, (255, 255, 255), (30, 160,
@@ -464,10 +506,10 @@ if __name__ == '__main__':
             text_w = text.get_width()
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
-        pygame.display.flip()
+            pygame.display.flip()
     running = True
-    clock = pygame.time.Clock()
-    gifFrameList = loadGIF(r"D:/img3.gif")
+    gifFrameList = loadGIF(r"D:/oie_261348453ESzBD2e.gif")
+    gifFrameList3 = loadGIF(r"D:/lava.gif")
     currentFrame = 0
     timer = pygame.time.get_ticks
     timeout = 7000 # milliseconds
@@ -477,23 +519,45 @@ if __name__ == '__main__':
         clock.tick(25)
         screen.fill((0, 0, 0))
         all_sprites.draw(screen)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
         if now > deadline:
             running = False
         rect = gifFrameList[currentFrame].get_rect(center = (800, 400))
         b = pygame.transform.scale(gifFrameList[currentFrame], (400, 400))
+        b.set_colorkey((255, 255, 255))
         screen.blit(b, rect)
         currentFrame = (currentFrame + 1) % len(gifFrameList)
         pygame.display.flip()
     running = True
     d = 2
+    currentFrame2 = 0
+    currentFrame3 = 0
+    currentFrame31 = 0
+    currentFrame32 = 0
+    currentFrame33 = 0
+    currentFrame34 = 0
+    currentFrame35 = 0
+    currentFrame36 = 0
+    currentFrame37 = 0
+    life = 10
+    brona = 0
+    sword = 0
+    ghj = [[10, 7], [12, 3], [5, 4], [23, 11], [7, 8], [3, 7], [2, 11], [16, 9]]
     while running == True:
-        pygame.display.flip()
+        dog_surf = pygame.transform.scale(image56, (width, height))
+        dog_rect = dog_surf.get_rect(bottomright=(width, height))
+        screen.blit(dog_surf, dog_rect)
+        if brona == 0:
+            dog_surf23 = pygame.transform.scale(image511, (68, 68))
+            dog_rect23 = dog_surf23.get_rect(bottomright=(698, 420))
+            screen.blit(dog_surf23, dog_rect23)
+        if sword == 0:
+            dog_surf23 = pygame.transform.scale(image512, (60, 60))
+            dog_rect23 = dog_surf23.get_rect(bottomright=(1601, 205))
+            screen.blit(dog_surf23, dog_rect23)
+        clock.tick(20)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s and y1 != height // 70 - 1 and gh == 0:
                     board.fm(x1, y1)
@@ -511,14 +575,96 @@ if __name__ == '__main__':
                     board.rp(x1, y1)
                     x1 -= 1
                     stat(x1, y1, p)
+                for t in ghj:
+                    if x1 == t[0] and y1 == t[1]:
+                        life -= 1
                 if event.key == pygame.K_m:
                     gh = (gh + 1) % 2
                 if event.key == pygame.K_j and x1 == 19 and y1 == 6:
                     running = False
+                if event.key == pygame.K_n and x1 == 9 and y1 == 5:
+                    image5 = pygame.image.load('D:/bron1.png')
+                    brona = 1
+                if event.key == pygame.K_n and x1 == 22 and y1 == 2:
+                    image6 = pygame.image.load('D:/меч1.png')
+                    sword = 1
                 print(x1, y1)
+                print(life)
                 #19 6
-        board.render(screen, 2)
+        font = pygame.font.Font(None, 40)
+        text = font.render("Health: " + str(life), True, (255, 0, 0))
+        text_x = 1650 - text.get_width() // 2
+        text_y = 30 - text.get_height() // 2
+        text_w = text.get_width()
+        text_h = text.get_height()
+        screen.blit(text, (text_x, text_y))
+        if gh == 0:
+            rect2 = gifFrameList2[currentFrame2].get_rect(center = (1400, 485))
+            b2 = pygame.transform.scale(gifFrameList2[currentFrame2], (200, 200))
+            b2.set_colorkey((255, 255, 255))
+            screen.blit(b2, rect2)
+            currentFrame2 = (currentFrame2 + 1) % len(gifFrameList2)
+
+            rect3 = gifFrameList3[currentFrame3].get_rect(center = (801, 591))
+            b3 = pygame.transform.scale(gifFrameList3[currentFrame3], (68, 68))
+            b3.set_colorkey((255, 255, 255))
+            screen.blit(b3, rect3)
+            currentFrame3 = (currentFrame3 + 1) % len(gifFrameList3)
+
+            rect33 = gifFrameList3[currentFrame33].get_rect(center = (801 + 13 * 70, 591 + 4 * 70))
+            b33 = pygame.transform.scale(gifFrameList3[currentFrame33], (68, 68))
+            b33.set_colorkey((255, 255, 255))
+            screen.blit(b33, rect33)
+            currentFrame33 = (currentFrame33 + 1) % len(gifFrameList3)
+
+            rect34 = gifFrameList3[currentFrame34].get_rect(center = (801 - 3 * 70, 591 + 70))
+            b34 = pygame.transform.scale(gifFrameList3[currentFrame34], (68, 68))
+            b34.set_colorkey((255, 255, 255))
+            screen.blit(b34, rect34)
+            currentFrame34 = (currentFrame34 + 1) % len(gifFrameList3)
+
+            rect35 = gifFrameList3[currentFrame35].get_rect(center = (801 - 7 * 70, 591))
+            b35 = pygame.transform.scale(gifFrameList3[currentFrame35], (68, 68))
+            b35.set_colorkey((255, 255, 255))
+            screen.blit(b35, rect35)
+            currentFrame35 = (currentFrame35 + 1) % len(gifFrameList3)
+
+            rect36 = gifFrameList3[currentFrame36].get_rect(center = (801 - 8 * 70, 591 + 4 * 70))
+            b36 = pygame.transform.scale(gifFrameList3[currentFrame36], (68, 68))
+            b36.set_colorkey((255, 255, 255))
+            screen.blit(b36, rect36)
+            currentFrame36 = (currentFrame36 + 1) % len(gifFrameList3)
+
+            rect37 = gifFrameList3[currentFrame37].get_rect(center = (801 + 6 * 70, 591 + 2 * 70))
+            b37 = pygame.transform.scale(gifFrameList3[currentFrame37], (68, 68))
+            b37.set_colorkey((255, 255, 255))
+            screen.blit(b37, rect37)
+            currentFrame37 = (currentFrame37 + 1) % len(gifFrameList3)
+
+            rect31 = gifFrameList3[currentFrame31].get_rect(center = (941, 311))
+            b31 = pygame.transform.scale(gifFrameList3[currentFrame31], (68, 68))
+            b31.set_colorkey((255, 255, 255))
+            screen.blit(b31, rect31)
+            currentFrame31 = (currentFrame31 + 1) % len(gifFrameList3)
+
+            rect32 = gifFrameList3[currentFrame32].get_rect(center = (451, 381))
+            b32 = pygame.transform.scale(gifFrameList3[currentFrame32], (68, 68))
+            b32.set_colorkey((255, 255, 255))
+            screen.blit(b32, rect32)
+            currentFrame32 = (currentFrame32 + 1) % len(gifFrameList3)
+            board.render(screen, 2)
+            if x1 == 9 and y1 == 5 and brona == 0:
+                pygame.draw.rect(screen, (0, 0, 0), (700, 100,
+                                           400, 300), 0)
+            if x1 == 22 and y1 == 2 and sword == 0:
+                pygame.draw.rect(screen, (0, 0, 0), (1320, 10,
+                                        200, 300), 0)
+                dog_surf11191 = pygame.transform.scale(imagef, (100, 100))
+                dog_rect11191 = dog_surf11191.get_rect(bottomright=(1470, 90))
+                screen.blit(dog_surf11191, dog_rect11191)
+            pygame.display.flip()
         if(gh == 1):
+            board.render(screen, 2)
             a = width
             b = height
             pygame.draw.rect(screen, (255, 255, 255), (30, 160,
@@ -625,4 +771,148 @@ if __name__ == '__main__':
             text_w = text.get_width()
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
-        pygame.display.flip()
+            pygame.display.flip()
+    running = True
+    screen.fill((0, 0, 0))
+    while running == True:
+        screen.fill((0, 0, 0))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s and y1 != height // 70 - 1 and gh == 0:
+                    board.fm(x1, y1)
+                    y1 += 1
+                    stat(x1, y1, p)
+                if event.key == pygame.K_w and y1 != 0 and gh == 0:
+                    board.fp(x1, y1)
+                    y1 -= 1
+                    stat(x1, y1, p)
+                if event.key == pygame.K_d and x1 != width // 70 - 1 and gh == 0:
+                    board.rm(x1, y1)
+                    x1 += 1
+                    stat(x1, y1, p)
+                if event.key == pygame.K_a and x1 != 0 and gh == 0:
+                    board.rp(x1, y1)
+                    x1 -= 1
+                    stat(x1, y1, p)
+                if x1 == 10 and y1 == 7:
+                    life -= 1
+                if x1 == 12 and y1 == 3:
+                    life -= 1
+                if x1 == 5 and y1 == 4:
+                    life -= 1
+                if event.key == pygame.K_m:
+                    gh = (gh + 1) % 2
+        if gh == 0:
+            board.render(screen, 3)
+            pygame.display.flip()
+        if(gh == 1):
+            board.render(screen, 3)
+            a = width
+            b = height
+            pygame.draw.rect(screen, (255, 255, 255), (30, 160,
+                                           440, 440), 0)
+            pygame.draw.rect(screen, (255, 255, 255), (1090, 20,
+                                           440, 440), 0)
+            pygame.draw.rect(screen, (255, 255, 255), (590, 430,
+                                           440, 440), 0)
+            pygame.draw.rect(screen, (0, 255, 0), (30, 160,
+                                           440, 440), 5)
+            pygame.draw.rect(screen, (0, 255, 0), (1090, 20,
+                                           440, 440), 5)
+            pygame.draw.rect(screen, (0, 255, 0), (590, 430,
+                                           440, 440), 5)
+            pygame.draw.rect(screen, (255, 255, 255), (1350, 500,
+                                           440, 440), 0)
+            pygame.draw.rect(screen, (0, 255, 0), (1350, 500,
+                                           440, 440), 5)
+
+            pygame.draw.rect(screen, (0, 0, 0), (50, 180,
+                                           400, 400), 0)
+            pygame.draw.rect(screen, (0, 0, 0), (1110, 40,
+                                           400, 400), 0)
+            pygame.draw.rect(screen, (0, 0, 0), (610, 450,
+                                           400, 400), 0)
+            pygame.draw.rect(screen, (0, 255, 0), (50, 180,
+                                           400, 400), 3)
+            pygame.draw.rect(screen, (0, 255, 0), (1110, 40,
+                                           400, 400), 3)
+            pygame.draw.rect(screen, (0, 255, 0), (610, 450,
+                                           400, 400), 3)
+            pygame.draw.rect(screen, (0, 0, 0), (1370, 520,
+                                           400, 400), 0)
+            pygame.draw.rect(screen, (0, 255, 0), (1370, 520,
+                                           400, 400), 3)
+
+            pygame.draw.rect(screen, (0, 0, 0), (600, 80,
+                                           400, 300), 0)
+            pygame.draw.rect(screen, (0, 255, 0), (600, 80,
+                                           400, 300), 5)
+            pygame.draw.rect(screen, (0, 0, 0), (50, 670,
+                                           400, 200), 0)
+            pygame.draw.rect(screen, (0, 255, 0), (50, 670,
+                                           400, 200), 5)
+            pygame.draw.rect(screen, (0, 0, 0), (1075, 520,
+                                           250, 400), 0)
+            pygame.draw.rect(screen, (0, 255, 0), (1075, 520,
+                                           250, 400), 5)
+
+            pygame.draw.rect(screen, (0, 0, 0), (1600, 100,
+                                           140, 200), 0)
+            pygame.draw.rect(screen, (0, 255, 0), (1600, 100,
+                                           140, 200), 5)
+            dog_surf111 = pygame.transform.scale(image3, (70, 70))
+            dog_rect111 = dog_surf111.get_rect(bottomright=(1705, 205))
+            screen.blit(dog_surf111, dog_rect111)
+            font = pygame.font.Font(None, 40)
+            text = font.render("Coins:", True, (255, 255, 0))
+            text_x = 1672 - text.get_width() // 2
+            text_y = 230 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 35)
+            text = font.render(str(coins), True, (255, 255, 0))
+            text_x = 1672 - text.get_width() // 2
+            text_y = 260 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            
+            font = pygame.font.Font(None, 40)
+            text = font.render("Your Stats:", True, (0, 255, 0))
+            text_x = 1200 - text.get_width() // 2
+            text_y = 550 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            dog_surf11 = pygame.transform.scale(image6, (300, 300))
+            dog_rect11 = dog_surf11.get_rect(bottomright=(400, 515))
+            screen.blit(dog_surf11, dog_rect11)
+            dog_surf13 = pygame.transform.scale(image5, (300, 300))
+            dog_rect13 = dog_surf13.get_rect(bottomright=(960, 790))
+            screen.blit(dog_surf13, dog_rect13)
+            dog_surf15 = pygame.transform.scale(image7, (350, 350))
+            dog_rect15 = dog_surf15.get_rect(bottomright=(1735, 895))
+            screen.blit(dog_surf15, dog_rect15)
+            dog_surf16 = pygame.transform.scale(image8, (300, 300))
+            dog_rect16 = dog_surf16.get_rect(bottomright=(1463, 385))
+            screen.blit(dog_surf16, dog_rect16)
+            font = pygame.font.Font(None, 70)
+            text = font.render("Your Profile:", True, (100, 255, 100))
+            text_x = 800 - text.get_width() // 2
+            text_y = 220 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            pygame.draw.rect(screen, (0, 255, 0), (text_x - 20, text_y - 80,
+                                                   text_w + 40, text_h + 160), 3)
+            font = pygame.font.Font(None, 30)
+            text = font.render("press 'm' to return to the game", True, (255, 255, 255))
+            text_x = 250 - text.get_width() // 2
+            text_y = 770 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            pygame.display.flip()
