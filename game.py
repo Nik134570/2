@@ -304,7 +304,7 @@ def load_image(name, colorkey=None):
 if __name__ == '__main__':
     fg = make_bingo(44)
     print(fg)
-    dam = 20000
+    dam = 20
     prot = 3
     hp = 80
     chance = 20
@@ -1177,6 +1177,7 @@ if __name__ == '__main__':
         b = 214
     currentFramebo = 0
     while running == True:
+        clock.tick(15)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                     pygame.quit()
