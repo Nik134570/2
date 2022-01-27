@@ -2,10 +2,12 @@ import os
 from re import S
 import sys
 import cv2
-
+import random
 import pygame
 
+
 agh = [[1, 2], [2, 3], [22, 3], [23, 3], [23, 2], [23, 1], [22, 1], [21, 1], [21, 2], [21, 3], [12, 12], [0, 13]]
+lst = []
 
 image = pygame.image.load('D:/fon.jpg')
 image1 = pygame.image.load('D:/39.png')
@@ -25,10 +27,20 @@ image511 = pygame.image.load('D:/bron1.png')
 image5112 = pygame.image.load('D:/tar.png')
 image512 = pygame.image.load('D:/меч1.png')
 images = pygame.image.load('D:/i.jpg')
-imagef = pygame.image.load('D:/f12.png')
+imagef = pygame.image.load('D:/sword91.jpg')
+imageb = pygame.image.load('D:/armor.jpg')
+image1d = pygame.image.load('D:/od.jpg')
+imageyes = pygame.image.load('D:/monetka.png')
+imageno = pygame.image.load('D:/monetka13.png')
 
 all_sprites = pygame.sprite.Group()
 
+def make_bingo(ty):
+    res = list()
+    resy = random.sample(range(0, 14 * 26 - 1), ty)
+    resy = resy[:ty // 2] + [0] + resy[ty // 2:]
+    res.append(resy[:])
+    return res
 
 def cv2ImageToSurface(cv2Image):
     size = cv2Image.shape[1::-1]
@@ -104,6 +116,14 @@ class Board:
     def render(self, screen, d):
         global s
         s = 0
+        if d == 9:
+            for r in lst[0]:
+                j = r // 26
+                i = r % 26
+                dog_surf1 = pygame.transform.scale(image1d, (68, 68))
+                dog_surf1.set_colorkey((255, 255, 255))
+                dog_rect1 = dog_surf1.get_rect(bottomright=(i * self.size + 69, j * self.size + 69))
+                screen.blit(dog_surf1, dog_rect1)
         if d == 0:
             pygame.draw.rect(screen, (0, 0, 0),
                                      (0, 0, width, height), 0)
@@ -165,6 +185,11 @@ class Board:
                 screen.blit(dog_surf1, dog_rect1)
                 pygame.draw.rect(screen, (255, 255, 255),
                                  (i * self.size, j * self.size, self.size, self.size), 1)
+        if d == 9:
+            for j in range(0, self.width):
+                for i in range(0, self.height):
+                    pygame.draw.rect(screen, (0, 0, 255),
+                                         (i * self.size, j * self.size, self.size, self.size), 1)
 
 
 
@@ -277,6 +302,12 @@ def load_image(name, colorkey=None):
 
 
 if __name__ == '__main__':
+    fg = make_bingo(44)
+    print(fg)
+    dam = 20000
+    prot = 3
+    hp = 80
+    chance = 20
     def stat(x1, y1, p):
         global d
         global agh
@@ -384,7 +415,7 @@ if __name__ == '__main__':
                 print(x1, y1)
                 #19 6
         font = pygame.font.Font(None, 40)
-        text = font.render("Health: " + str(life), True, (255, 0, 0))
+        text = font.render("Health: " + str(hp), True, (255, 0, 0))
         text_x = 1650 - text.get_width() // 2
         text_y = 30 - text.get_height() // 2
         text_w = text.get_width()
@@ -471,6 +502,9 @@ if __name__ == '__main__':
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
             
+
+
+
             font = pygame.font.Font(None, 40)
             text = font.render("Your Stats:", True, (0, 255, 0))
             text_x = 1200 - text.get_width() // 2
@@ -478,6 +512,46 @@ if __name__ == '__main__':
             text_w = text.get_width()
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("Attack: " + str(dam), True, (255, 0, 255))
+            text_x = 1170 - text.get_width() // 2
+            text_y = 600 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("HP: " + str(hp), True, (255, 0, 0))
+            text_x = 1150 - text.get_width() // 2
+            text_y = 650 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("Protection: " + str(prot), True, (33, 240, 248))
+            text_x = 1190 - text.get_width() // 2
+            text_y = 700 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("Lucky Chance: ", True, (255, 255, 0))
+            text_x = 1200 - text.get_width() // 2
+            text_y = 770 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render(str(chance) + "%", True, (255, 255, 0))
+            text_x = 1200 - text.get_width() // 2
+            text_y = 820 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+
+
+
+
+
             dog_surf11 = pygame.transform.scale(image6, (300, 300))
             dog_rect11 = dog_surf11.get_rect(bottomright=(400, 515))
             screen.blit(dog_surf11, dog_rect11)
@@ -510,6 +584,8 @@ if __name__ == '__main__':
     running = True
     gifFrameList = loadGIF(r"D:/oie_261348453ESzBD2e.gif")
     gifFrameList3 = loadGIF(r"D:/lava.gif")
+    gifFrameListboss = loadGIF(r"D:/boss.gif")
+    currentFrameboss = 0
     currentFrame = 0
     timer = pygame.time.get_ticks
     timeout = 7000 # milliseconds
@@ -538,7 +614,6 @@ if __name__ == '__main__':
     currentFrame35 = 0
     currentFrame36 = 0
     currentFrame37 = 0
-    life = 10
     brona = 0
     sword = 0
     ghj = [[10, 7], [12, 3], [5, 4], [23, 11], [7, 8], [3, 7], [2, 11], [16, 9]]
@@ -577,7 +652,7 @@ if __name__ == '__main__':
                     stat(x1, y1, p)
                 for t in ghj:
                     if x1 == t[0] and y1 == t[1]:
-                        life -= 1
+                        hp -= 1
                 if event.key == pygame.K_m:
                     gh = (gh + 1) % 2
                 if event.key == pygame.K_j and x1 == 19 and y1 == 6:
@@ -585,19 +660,28 @@ if __name__ == '__main__':
                 if event.key == pygame.K_n and x1 == 9 and y1 == 5:
                     image5 = pygame.image.load('D:/bron1.png')
                     brona = 1
+                    prot += 20
+                    prot -= 3
+                    hp += 50
+                    hp -= 30
+                    chance += 7
                 if event.key == pygame.K_n and x1 == 22 and y1 == 2:
                     image6 = pygame.image.load('D:/меч1.png')
                     sword = 1
+                    dam = 55
+                    chance += 12
+                    prot += 2
                 print(x1, y1)
-                print(life)
                 #19 6
+                # life
         font = pygame.font.Font(None, 40)
-        text = font.render("Health: " + str(life), True, (255, 0, 0))
+        text = font.render("Health: " + str(hp), True, (255, 0, 0))
         text_x = 1650 - text.get_width() // 2
         text_y = 30 - text.get_height() // 2
         text_w = text.get_width()
         text_h = text.get_height()
         screen.blit(text, (text_x, text_y))
+        
         if gh == 0:
             rect2 = gifFrameList2[currentFrame2].get_rect(center = (1400, 485))
             b2 = pygame.transform.scale(gifFrameList2[currentFrame2], (200, 200))
@@ -654,13 +738,12 @@ if __name__ == '__main__':
             currentFrame32 = (currentFrame32 + 1) % len(gifFrameList3)
             board.render(screen, 2)
             if x1 == 9 and y1 == 5 and brona == 0:
-                pygame.draw.rect(screen, (0, 0, 0), (700, 100,
-                                           400, 300), 0)
+                dog_surf11191 = pygame.transform.scale(imageb, (200, 300))
+                dog_rect11191 = dog_surf11191.get_rect(bottomright=(900, 400))
+                screen.blit(dog_surf11191, dog_rect11191)
             if x1 == 22 and y1 == 2 and sword == 0:
-                pygame.draw.rect(screen, (0, 0, 0), (1320, 10,
-                                        200, 300), 0)
-                dog_surf11191 = pygame.transform.scale(imagef, (100, 100))
-                dog_rect11191 = dog_surf11191.get_rect(bottomright=(1470, 90))
+                dog_surf11191 = pygame.transform.scale(imagef, (200, 300))
+                dog_rect11191 = dog_surf11191.get_rect(bottomright=(1520, 310))
                 screen.blit(dog_surf11191, dog_rect11191)
             pygame.display.flip()
         if(gh == 1):
@@ -736,6 +819,7 @@ if __name__ == '__main__':
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
             
+
             font = pygame.font.Font(None, 40)
             text = font.render("Your Stats:", True, (0, 255, 0))
             text_x = 1200 - text.get_width() // 2
@@ -743,6 +827,43 @@ if __name__ == '__main__':
             text_w = text.get_width()
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("Attack: " + str(dam), True, (255, 0, 255))
+            text_x = 1170 - text.get_width() // 2
+            text_y = 600 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("HP: " + str(hp), True, (255, 0, 0))
+            text_x = 1150 - text.get_width() // 2
+            text_y = 650 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("Protection: " + str(prot), True, (33, 240, 248))
+            text_x = 1190 - text.get_width() // 2
+            text_y = 700 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("Lucky Chance: ", True, (255, 255, 0))
+            text_x = 1200 - text.get_width() // 2
+            text_y = 770 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render(str(chance) + "%", True, (255, 255, 0))
+            text_x = 1200 - text.get_width() // 2
+            text_y = 820 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+
+
             dog_surf11 = pygame.transform.scale(image6, (300, 300))
             dog_rect11 = dog_surf11.get_rect(bottomright=(400, 515))
             screen.blit(dog_surf11, dog_rect11)
@@ -773,12 +894,55 @@ if __name__ == '__main__':
             screen.blit(text, (text_x, text_y))
             pygame.display.flip()
     running = True
-    screen.fill((0, 0, 0))
+    currentFrame = 0
+    timer = pygame.time.get_ticks
+    timeout = 7000 # milliseconds
+    deadline = timer() + timeout
     while running == True:
+        now = timer()
+        clock.tick(25)
         screen.fill((0, 0, 0))
+        all_sprites.draw(screen)
+        if now > deadline:
+            running = False
+        rect = gifFrameList[currentFrame].get_rect(center = (800, 400))
+        b = pygame.transform.scale(gifFrameList[currentFrame], (400, 400))
+        b.set_colorkey((255, 255, 255))
+        screen.blit(b, rect)
+        currentFrame = (currentFrame + 1) % len(gifFrameList)
+        pygame.display.flip()
+    running = True
+    screen.fill((0, 0, 0))
+    gifFrameListbo = loadGIF(r"D:/fonforboss.gif")
+    currentFramebo = 0
+    cou = 2
+    timer = pygame.time.get_ticks
+    timeout = 3000 # milliseconds
+    deadline = timer() + timeout
+    timeout1 = 5000
+    deadline1 = timer() + timeout1
+    can = 1
+    lst = make_bingo(cou)
+    bosshp = 500
+    e = []
+    for i in range(100):
+        e.append(0)
+    for i in range(chance):
+        e[i] = 1
+    while running == True:
+        now = timer()
+        rectbo = gifFrameListbo[currentFramebo].get_rect(center = (177, 250))
+        bbo = pygame.transform.scale(gifFrameListbo[currentFramebo], (width, height))
+        bbo.set_colorkey((255, 255, 255))
+        screen.blit(bbo, rectbo)
+        currentFramebo = (currentFramebo + 1) % len(gifFrameListbo)
+        clock.tick(20)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+            if hp <= 0 or coins == 0:
+                running = False
+                itog = 0
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s and y1 != height // 70 - 1 and gh == 0:
                     board.fm(x1, y1)
@@ -797,18 +961,53 @@ if __name__ == '__main__':
                     x1 -= 1
                     stat(x1, y1, p)
                 if x1 == 10 and y1 == 7:
-                    life -= 1
+                    hp -= 1
                 if x1 == 12 and y1 == 3:
-                    life -= 1
+                    hp -= 1
                 if x1 == 5 and y1 == 4:
-                    life -= 1
+                    hp -= 1
                 if event.key == pygame.K_m:
                     gh = (gh + 1) % 2
-        if gh == 0:
-            board.render(screen, 3)
-            pygame.display.flip()
+                if event.key == pygame.K_e and can == 1:
+                    can = 0
+                    random_index = random.randint(0,len(e)-1)
+                    if e[random_index] == 1:
+                        bosshp -= dam
+                    coins -= 1
+                
+                    #life
+        board.render(screen, 9)
+        font = pygame.font.Font(None, 40)
+        text = font.render("Health: " + str(hp), True, (255, 0, 0))
+        text_x = 1650 - text.get_width() // 2
+        text_y = 30 - text.get_height() // 2
+        text_w = text.get_width()
+        text_h = text.get_height()
+        screen.blit(text, (text_x, text_y))
+        font = pygame.font.Font(None, 40)
+        text = font.render("Health Boss: " + str(bosshp), True, (255, 0, 0))
+        text_x = 1650 - text.get_width() // 2
+        text_y = 230 - text.get_height() // 2
+        text_w = text.get_width()
+        text_h = text.get_height()
+        screen.blit(text, (text_x, text_y))
+        if can == 0:
+            dog_surf1 = pygame.transform.scale(imageno, (150, 150))
+            dog_rect1 = dog_surf1.get_rect(bottomright=(1700, 700))
+            screen.blit(dog_surf1, dog_rect1)
+        else:
+            dog_surf1 = pygame.transform.scale(imageyes, (150, 150))
+            dog_rect1 = dog_surf1.get_rect(bottomright=(1700, 700))
+            screen.blit(dog_surf1, dog_rect1)
+        rectboss = gifFrameListboss[currentFrameboss].get_rect(center = (990, 435))
+        bboss = pygame.transform.scale(gifFrameListboss[currentFrameboss], (400, 400))
+        bboss.set_colorkey((255, 255, 255))
+        screen.blit(bboss, rectboss)
+        currentFrameboss = (currentFrameboss + 1) % len(gifFrameListboss)
+        for r in lst[0]:
+            if y1 == r // 26 and x1 == r % 26:
+                hp -= 1
         if(gh == 1):
-            board.render(screen, 3)
             a = width
             b = height
             pygame.draw.rect(screen, (255, 255, 255), (30, 160,
@@ -887,6 +1086,43 @@ if __name__ == '__main__':
             text_w = text.get_width()
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("Attack: " + str(dam), True, (255, 0, 255))
+            text_x = 1170 - text.get_width() // 2
+            text_y = 600 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("HP: " + str(hp), True, (255, 0, 0))
+            text_x = 1150 - text.get_width() // 2
+            text_y = 650 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("Protection: " + str(prot), True, (33, 240, 248))
+            text_x = 1190 - text.get_width() // 2
+            text_y = 700 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render("Lucky Chance: ", True, (255, 255, 0))
+            text_x = 1200 - text.get_width() // 2
+            text_y = 770 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+            font = pygame.font.Font(None, 40)
+            text = font.render(str(chance) + "%", True, (255, 255, 0))
+            text_x = 1200 - text.get_width() // 2
+            text_y = 820 - text.get_height() // 2
+            text_w = text.get_width()
+            text_h = text.get_height()
+            screen.blit(text, (text_x, text_y))
+
+
             dog_surf11 = pygame.transform.scale(image6, (300, 300))
             dog_rect11 = dog_surf11.get_rect(bottomright=(400, 515))
             screen.blit(dog_surf11, dog_rect11)
@@ -915,4 +1151,39 @@ if __name__ == '__main__':
             text_w = text.get_width()
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
-            pygame.display.flip()
+        pygame.display.flip()
+        if now > deadline:
+            timer = pygame.time.get_ticks
+            timeout = 3000 # milliseconds
+            deadline = timer() + timeout
+            cou += 2
+            cou %= 26 * 14
+            lst = make_bingo(cou)
+        if now > deadline1:
+            timeout1 = 5000
+            deadline1 = timer() + timeout1
+            can = 1
+        if bosshp <= 0:
+            running = False
+            itog = 1
+    running = True
+    if itog == 1:
+        gifFrameListbo = loadGIF(r"D:/youwin.gif")
+        a = 187
+        b = 140
+    else:
+        gifFrameListbo = loadGIF(r"D:/youlose.gif")
+        a = 378
+        b = 214
+    currentFramebo = 0
+    while running == True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                    pygame.quit()
+        rectbo = gifFrameListbo[currentFramebo].get_rect(center = (a, b))
+        bbo = pygame.transform.scale(gifFrameListbo[currentFramebo], (width, height))
+        bbo.set_colorkey((255, 255, 255))
+        screen.blit(bbo, rectbo)
+        currentFramebo = (currentFramebo + 1) % len(gifFrameListbo)
+        pygame.display.flip()
+
