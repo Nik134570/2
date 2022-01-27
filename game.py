@@ -9,29 +9,29 @@ import pygame
 agh = [[1, 2], [2, 3], [22, 3], [23, 3], [23, 2], [23, 1], [22, 1], [21, 1], [21, 2], [21, 3], [12, 12], [0, 13]]
 lst = []
 
-image = pygame.image.load('D:/fon.jpg')
-image1 = pygame.image.load('D:/39.png')
-image2 = pygame.image.load('D:/56.png')
-image3 = pygame.image.load('D:/coin2.png')
-image4 = pygame.image.load('D:/portal.png')
-image5 = pygame.image.load('D:/ronz.png')
-image6 = pygame.image.load('D:/sword1.png')
-image7 = pygame.image.load('D:/ук.png')
-image8 = pygame.image.load('D:/крылья.png')
-image13 = pygame.image.load('D:/bc3.jpg')
-image38 = pygame.image.load('D:/mon1.png')
-image18 = pygame.image.load('D:/we12.png')
-image67 = pygame.image.load('D:/cityc.png')
-image56 = pygame.image.load('D:/d1.jpg')
-image511 = pygame.image.load('D:/bron1.png')
-image5112 = pygame.image.load('D:/tar.png')
-image512 = pygame.image.load('D:/меч1.png')
-images = pygame.image.load('D:/i.jpg')
-imagef = pygame.image.load('D:/sword91.jpg')
-imageb = pygame.image.load('D:/armor.jpg')
-image1d = pygame.image.load('D:/od.jpg')
-imageyes = pygame.image.load('D:/monetka.png')
-imageno = pygame.image.load('D:/monetka13.png')
+image = pygame.image.load('fon.jpg')
+image1 = pygame.image.load('39.png')
+image2 = pygame.image.load('56.png')
+image3 = pygame.image.load('coin2.png')
+image4 = pygame.image.load('portal.png')
+image5 = pygame.image.load('ronz.png')
+image6 = pygame.image.load('sword1.png')
+image7 = pygame.image.load('ук.png')
+image8 = pygame.image.load('крылья.png')
+image13 = pygame.image.load('bc3.jpg')
+image38 = pygame.image.load('mon1.png')
+image18 = pygame.image.load('we12.png')
+image67 = pygame.image.load('cityc.png')
+image56 = pygame.image.load('d1.jpg')
+image511 = pygame.image.load('bron1.png')
+image5112 = pygame.image.load('tar.png')
+image512 = pygame.image.load('меч1.png')
+images = pygame.image.load('i.jpg')
+imagef = pygame.image.load('sword91.jpg')
+imageb = pygame.image.load('armor.jpg')
+image1d = pygame.image.load('od.jpg')
+imageyes = pygame.image.load('monetka.png')
+imageno = pygame.image.load('monetka13.png')
 
 all_sprites = pygame.sprite.Group()
 
@@ -335,7 +335,7 @@ if __name__ == '__main__':
     d = 1
     s = 0
     gh = 0
-    gifFrameList1 = loadGIF(r"D:/ghy1.gif")
+    gifFrameList1 = loadGIF(r"ghy1.gif")
     currentFrame1 = 0
     clock = pygame.time.Clock()
     while running:
@@ -358,8 +358,8 @@ if __name__ == '__main__':
         screen.blit(dog_surf11124, dog_rect11124)
         pygame.display.flip()
     running = True
-    gifFrameList2 = loadGIF(r"D:/1цу.gif")
-    gifFrameList21 = loadGIF(r"D:/fong.gif")
+    gifFrameList2 = loadGIF(r"1цу.gif")
+    gifFrameList21 = loadGIF(r"fong.gif")
     currentFrame2 = 0
     currentFrame21 = 0
     while running:
@@ -582,9 +582,9 @@ if __name__ == '__main__':
             screen.blit(text, (text_x, text_y))
             pygame.display.flip()
     running = True
-    gifFrameList = loadGIF(r"D:/oie_261348453ESzBD2e.gif")
-    gifFrameList3 = loadGIF(r"D:/lava.gif")
-    gifFrameListboss = loadGIF(r"D:/boss.gif")
+    gifFrameList = loadGIF(r"oie_261348453ESzBD2e.gif")
+    gifFrameList3 = loadGIF(r"lava.gif")
+    gifFrameListboss = loadGIF(r"boss.gif")
     currentFrameboss = 0
     currentFrame = 0
     timer = pygame.time.get_ticks
@@ -658,7 +658,7 @@ if __name__ == '__main__':
                 if event.key == pygame.K_j and x1 == 19 and y1 == 6:
                     running = False
                 if event.key == pygame.K_n and x1 == 9 and y1 == 5:
-                    image5 = pygame.image.load('D:/bron1.png')
+                    image5 = pygame.image.load('bron1.png')
                     brona = 1
                     prot += 20
                     prot -= 3
@@ -666,7 +666,7 @@ if __name__ == '__main__':
                     hp -= 30
                     chance += 7
                 if event.key == pygame.K_n and x1 == 22 and y1 == 2:
-                    image6 = pygame.image.load('D:/меч1.png')
+                    image6 = pygame.image.load('меч1.png')
                     sword = 1
                     dam = 55
                     chance += 12
@@ -913,7 +913,7 @@ if __name__ == '__main__':
         pygame.display.flip()
     running = True
     screen.fill((0, 0, 0))
-    gifFrameListbo = loadGIF(r"D:/fonforboss.gif")
+    gifFrameListbo = loadGIF(r"fonforboss.gif")
     currentFramebo = 0
     cou = 2
     timer = pygame.time.get_ticks
@@ -1168,11 +1168,11 @@ if __name__ == '__main__':
             itog = 1
     running = True
     if itog == 1:
-        gifFrameListbo = loadGIF(r"D:/youwin.gif")
+        gifFrameListbo = loadGIF(r"youwin.gif")
         a = 187
         b = 140
     else:
-        gifFrameListbo = loadGIF(r"D:/youlose.gif")
+        gifFrameListbo = loadGIF(r"youlose.gif")
         a = 378
         b = 214
     currentFramebo = 0
