@@ -3,3 +3,4 @@ sys
 cv2
 random
 pygame
+pip install opencv-python
