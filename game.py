@@ -1,3 +1,4 @@
+#библиотеки
 import os
 from re import S
 import sys
@@ -6,9 +7,22 @@ import random
 import pygame
 
 
+#координаты предметов
 agh = [[1, 2], [2, 3], [22, 3], [23, 3], [23, 2], [23, 1], [22, 1], [21, 1], [21, 2], [21, 3], [12, 12], [0, 13]]
 lst = []
 
+all_sprites = pygame.sprite.Group()
+maxhp = 0
+
+
+def hp_hero(hp):
+    pygame.draw.rect(screen, (255, 255, 255), (10, 10, maxhp * 5 + 4, 24), 0)
+    pygame.draw.rect(screen, (0, 0, 0), (12, 12, maxhp * 5, 20), 0)
+    pygame.draw.rect(screen, (255, 255, 255), (12, 12, hp * 5 + 2, 20), 0)
+    pygame.draw.rect(screen, (255, 0, 0), (12, 12, hp * 5, 20), 0)
+
+
+#загрузка фотографий
 image = pygame.image.load('fon.jpg')
 image1 = pygame.image.load('39.png')
 image2 = pygame.image.load('56.png')
@@ -19,7 +33,7 @@ image6 = pygame.image.load('sword1.png')
 image7 = pygame.image.load('ук.png')
 image8 = pygame.image.load('крылья.png')
 image13 = pygame.image.load('bc3.jpg')
-image38 = pygame.image.load('mon1.png')
+image38 = pygame.image.load('лесмонета.png')
 image18 = pygame.image.load('we12.png')
 image67 = pygame.image.load('cityc.png')
 image56 = pygame.image.load('d1.jpg')
@@ -33,8 +47,10 @@ image1d = pygame.image.load('od.jpg')
 imageyes = pygame.image.load('monetka.png')
 imageno = pygame.image.load('monetka13.png')
 
-all_sprites = pygame.sprite.Group()
 
+
+
+#рандомное поле атаки на боссе
 def make_bingo(ty):
     res = list()
     resy = random.sample(range(0, 14 * 26 - 1), ty)
@@ -42,13 +58,14 @@ def make_bingo(ty):
     res.append(resy[:])
     return res
 
+
+#для гифок
 def cv2ImageToSurface(cv2Image):
     size = cv2Image.shape[1::-1]
     format = 'RGBA' if cv2Image.shape[2] == 4 else 'RGB'
     cv2Image[:, :, [0, 2]] = cv2Image[:, :, [2, 0]]
     surface = pygame.image.frombuffer(cv2Image.flatten(), size, format)
     return surface.convert_alpha() if format == 'RGBA' else surface.convert()
-
 def loadGIF(filename):
     gif = cv2.VideoCapture(filename)
     frames = []
@@ -62,13 +79,15 @@ def loadGIF(filename):
 
 
 
-
+#поле
 class Board:
     colors = ["black", "white"]
     def __init__(self, width, height):
         self.width = width
         self.height = height
         self.board = [[0] * width for _ in range(height)]
+        
+        #позиции предметов
         self.board[3][4] = 2
         self.board[6][7] = 2
         self.board[9][7] = 2
@@ -113,6 +132,7 @@ class Board:
         self.top = 10
         self.size = 70
 
+    #отрисовка поля
     def render(self, screen, d):
         global s
         s = 0
@@ -193,28 +213,27 @@ class Board:
 
 
 
-
+    #побочные функции для поля
     def set_view(self, left, top, size):
         self.left = left
         self.top = top
         self.size = size
-
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
         self.on_click(cell)
-
     def get_cell(self, mouse_pouse):
         x = (mouse_pouse[1] - self.left) // self.size
         y = (mouse_pouse[0] - self.top) // self.size
         if 0 <= x < self.width and 0 <= y < self.height:
             return x, y
         return None
-
     def on_click(self, cell_coords):
         y, x = cell_coords
         for j in range(0, self.width):
             for i in range(0, self.height):
                 self.board[i][j] = 0
+                
+        #позиции предметов
         self.board[x][y] = (self.board[x][y] + 1) % 2
         self.board[7][9] = 2
         self.board[9][7] = 2
@@ -257,13 +276,14 @@ class Board:
         self.board[19][7] = 3
         self.board[20][7] = 3
 
-
+    #какаято функция 1
     def n(self):
         for j in range(0, self.width):
             for i in range(0, self.height):
                 if self.board[i][j] == 1:
                     return i, j
 
+    #какаято функция 2
     def g(self):
         y = []
         for j in range(0, self.width):
@@ -273,24 +293,22 @@ class Board:
                     y.append(z)
         return y
 
+    #нужные функции
     def fm(self, x1, y1):
         self.board[x1][y1] = 0
         self.board[x1][y1 + 1] = 1
-
     def fp(self, x1, y1):
         self.board[x1][y1] = 0
         self.board[x1][y1 - 1] = 1
-
     def rm(self, x1, y1):
         self.board[x1][y1] = 0
         self.board[x1 + 1][y1] = 1
-
     def rp(self, x1, y1):
         self.board[x1][y1] = 0
         self.board[x1 - 1][y1] = 1
 
 
-
+#загрузка изображений
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
     # если файл не существует, то выходим
@@ -307,6 +325,7 @@ if __name__ == '__main__':
     dam = 20
     prot = 3
     hp = 80
+    maxhp = 80
     chance = 20
     def stat(x1, y1, p):
         global d
@@ -335,10 +354,20 @@ if __name__ == '__main__':
     d = 1
     s = 0
     gh = 0
-    gifFrameList1 = loadGIF(r"ghy1.gif")
+    gifFrameList1 = loadGIF(r"пша.gif")
+    gifFrameListtext = loadGIF(r"text.gif")
     currentFrame1 = 0
+    currentFrametext = 0
     clock = pygame.time.Clock()
+    
+    
+    
+    timer = pygame.time.get_ticks
+    timeout = 6940 # milliseconds
+    deadline = timer() + timeout
+    #начальное окно
     while running:
+        now = timer()
         clock.tick(20)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -346,22 +375,25 @@ if __name__ == '__main__':
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     running = False
-        rect1 = gifFrameList1[currentFrame1].get_rect(center = (530, 300))
+        if now > deadline:
+            running = False
+        rect1 = gifFrameList1[currentFrame1].get_rect(center = (990, 535))
         b1 = pygame.transform.scale(gifFrameList1[currentFrame1], (width, height))
         screen.blit(b1, rect1)
         currentFrame1 = (currentFrame1 + 1) % len(gifFrameList1)
-        dog_surf1112 = pygame.transform.scale(image38, (200, 200))
-        dog_rect1112 = dog_surf1112.get_rect(bottomright=(1010, 500))
-        screen.blit(dog_surf1112, dog_rect1112)
-        dog_surf11124 = pygame.transform.scale(image18, (500, 300))
-        dog_rect11124 = dog_surf11124.get_rect(bottomright=(1160, 800))
-        screen.blit(dog_surf11124, dog_rect11124)
         pygame.display.flip()
+        
+        
+    
     running = True
     gifFrameList2 = loadGIF(r"1цу.gif")
     gifFrameList21 = loadGIF(r"fong.gif")
     currentFrame2 = 0
     currentFrame21 = 0
+    
+    
+    
+    #выбор позиции
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -374,6 +406,9 @@ if __name__ == '__main__':
         screen.fill((0, 0, 0))
         board.render(screen, 0)
         pygame.display.flip()
+        
+        
+    
     running = True
     screen.fill((0, 0, 0))
     pygame.display.flip()
@@ -381,6 +416,10 @@ if __name__ == '__main__':
     p = board.g()
     print(p)
     life = 10
+    
+    
+    
+    #1 этаж
     while running == True:
         rect21 = gifFrameList21[currentFrame21].get_rect(center = (420, 275))
         b21 = pygame.transform.scale(gifFrameList21[currentFrame21], (width, height))
@@ -414,13 +453,6 @@ if __name__ == '__main__':
                     running = False
                 print(x1, y1)
                 #19 6
-        font = pygame.font.Font(None, 40)
-        text = font.render("Health: " + str(hp), True, (255, 0, 0))
-        text_x = 1650 - text.get_width() // 2
-        text_y = 30 - text.get_height() // 2
-        text_w = text.get_width()
-        text_h = text.get_height()
-        screen.blit(text, (text_x, text_y))
         if gh == 0:
             rect2 = gifFrameList2[currentFrame2].get_rect(center = (1400, 485))
             b2 = pygame.transform.scale(gifFrameList2[currentFrame2], (200, 200))
@@ -428,6 +460,7 @@ if __name__ == '__main__':
             screen.blit(b2, rect2)
             currentFrame2 = (currentFrame2 + 1) % len(gifFrameList2)
             board.render(screen, 1)
+            hp_hero(hp)
             pygame.display.flip()
         if(gh == 1):
             board.render(screen, 1)
@@ -520,7 +553,7 @@ if __name__ == '__main__':
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
             font = pygame.font.Font(None, 40)
-            text = font.render("HP: " + str(hp), True, (255, 0, 0))
+            text = font.render("Max HP: " + str(maxhp), True, (255, 0, 0))
             text_x = 1150 - text.get_width() // 2
             text_y = 650 - text.get_height() // 2
             text_w = text.get_width()
@@ -580,6 +613,7 @@ if __name__ == '__main__':
             text_w = text.get_width()
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
+            hp_hero(hp)
             pygame.display.flip()
     running = True
     gifFrameList = loadGIF(r"oie_261348453ESzBD2e.gif")
@@ -590,6 +624,10 @@ if __name__ == '__main__':
     timer = pygame.time.get_ticks
     timeout = 7000 # milliseconds
     deadline = timer() + timeout
+    
+    
+    
+    #загрузка
     while running == True:
         now = timer()
         clock.tick(25)
@@ -603,6 +641,9 @@ if __name__ == '__main__':
         screen.blit(b, rect)
         currentFrame = (currentFrame + 1) % len(gifFrameList)
         pygame.display.flip()
+        
+        
+        
     running = True
     d = 2
     currentFrame2 = 0
@@ -617,6 +658,9 @@ if __name__ == '__main__':
     brona = 0
     sword = 0
     ghj = [[10, 7], [12, 3], [5, 4], [23, 11], [7, 8], [3, 7], [2, 11], [16, 9]]
+    
+    
+    #2 этаж
     while running == True:
         dog_surf = pygame.transform.scale(image56, (width, height))
         dog_rect = dog_surf.get_rect(bottomright=(width, height))
@@ -664,6 +708,7 @@ if __name__ == '__main__':
                     prot -= 3
                     hp += 50
                     hp -= 30
+                    maxhp += 20
                     chance += 7
                 if event.key == pygame.K_n and x1 == 22 and y1 == 2:
                     image6 = pygame.image.load('меч1.png')
@@ -674,13 +719,7 @@ if __name__ == '__main__':
                 print(x1, y1)
                 #19 6
                 # life
-        font = pygame.font.Font(None, 40)
-        text = font.render("Health: " + str(hp), True, (255, 0, 0))
-        text_x = 1650 - text.get_width() // 2
-        text_y = 30 - text.get_height() // 2
-        text_w = text.get_width()
-        text_h = text.get_height()
-        screen.blit(text, (text_x, text_y))
+        hp_hero(hp)
         
         if gh == 0:
             rect2 = gifFrameList2[currentFrame2].get_rect(center = (1400, 485))
@@ -745,6 +784,7 @@ if __name__ == '__main__':
                 dog_surf11191 = pygame.transform.scale(imagef, (200, 300))
                 dog_rect11191 = dog_surf11191.get_rect(bottomright=(1520, 310))
                 screen.blit(dog_surf11191, dog_rect11191)
+            hp_hero(hp)
             pygame.display.flip()
         if(gh == 1):
             board.render(screen, 2)
@@ -835,7 +875,7 @@ if __name__ == '__main__':
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
             font = pygame.font.Font(None, 40)
-            text = font.render("HP: " + str(hp), True, (255, 0, 0))
+            text = font.render("Max HP: " + str(maxhp), True, (255, 0, 0))
             text_x = 1150 - text.get_width() // 2
             text_y = 650 - text.get_height() // 2
             text_w = text.get_width()
@@ -892,12 +932,16 @@ if __name__ == '__main__':
             text_w = text.get_width()
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
+            hp_hero(hp)
             pygame.display.flip()
     running = True
     currentFrame = 0
     timer = pygame.time.get_ticks
     timeout = 7000 # milliseconds
     deadline = timer() + timeout
+    
+    
+    #загрузка
     while running == True:
         now = timer()
         clock.tick(25)
@@ -911,6 +955,9 @@ if __name__ == '__main__':
         screen.blit(b, rect)
         currentFrame = (currentFrame + 1) % len(gifFrameList)
         pygame.display.flip()
+        
+        
+        
     running = True
     screen.fill((0, 0, 0))
     gifFrameListbo = loadGIF(r"fonforboss.gif")
@@ -929,6 +976,10 @@ if __name__ == '__main__':
         e.append(0)
     for i in range(chance):
         e[i] = 1
+        
+        
+        
+    #босс
     while running == True:
         now = timer()
         rectbo = gifFrameListbo[currentFramebo].get_rect(center = (177, 250))
@@ -977,13 +1028,7 @@ if __name__ == '__main__':
                 
                     #life
         board.render(screen, 9)
-        font = pygame.font.Font(None, 40)
-        text = font.render("Health: " + str(hp), True, (255, 0, 0))
-        text_x = 1650 - text.get_width() // 2
-        text_y = 30 - text.get_height() // 2
-        text_w = text.get_width()
-        text_h = text.get_height()
-        screen.blit(text, (text_x, text_y))
+        hp_hero(hp)
         font = pygame.font.Font(None, 40)
         text = font.render("Health Boss: " + str(bosshp), True, (255, 0, 0))
         text_x = 1650 - text.get_width() // 2
@@ -1094,7 +1139,7 @@ if __name__ == '__main__':
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
             font = pygame.font.Font(None, 40)
-            text = font.render("HP: " + str(hp), True, (255, 0, 0))
+            text = font.render("Max HP: " + str(maxhp), True, (255, 0, 0))
             text_x = 1150 - text.get_width() // 2
             text_y = 650 - text.get_height() // 2
             text_w = text.get_width()
@@ -1151,6 +1196,7 @@ if __name__ == '__main__':
             text_w = text.get_width()
             text_h = text.get_height()
             screen.blit(text, (text_x, text_y))
+        hp_hero(hp)
         pygame.display.flip()
         if now > deadline:
             timer = pygame.time.get_ticks
@@ -1176,6 +1222,10 @@ if __name__ == '__main__':
         a = 378
         b = 214
     currentFramebo = 0
+    
+    
+    
+    #конец
     while running == True:
         clock.tick(15)
         for event in pygame.event.get():
@@ -1187,4 +1237,9 @@ if __name__ == '__main__':
         screen.blit(bbo, rectbo)
         currentFramebo = (currentFramebo + 1) % len(gifFrameListbo)
         pygame.display.flip()
+
+
+
+
+
 
